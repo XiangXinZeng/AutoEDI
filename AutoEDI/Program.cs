@@ -59,7 +59,9 @@ namespace AutoEDI
             {
                 try
                 {
-                    ExecuteCommand(customer);
+                    //for production
+                    //ExecuteCommand(customer);
+                    ExecuteCommandTest(customer);
                 }
                 catch (Exception ex)
                 {
@@ -113,6 +115,21 @@ namespace AutoEDI
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.FileName = commandPath;
             processInfo.Arguments = $" /BASESEDIR=0 /HOST=MBCSQL /OPER={oper} /pass={pass} /comp={comp} /cpas={cpass} /prog=EDI810 /link={customerCode}:NRINA:NOREPORT:REPRINT:LIST";
+            processInfo.CreateNoWindow = false;
+            processInfo.UseShellExecute = false;
+            processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            using (Process process = Process.Start(processInfo))
+            {
+                process.WaitForExit();
+            }
+        }
+
+        //this method is for test purpose only
+        private static void ExecuteCommandTest(string customer)
+        {
+            ProcessStartInfo processInfo = new ProcessStartInfo();
+            processInfo.FileName = $"C:\\Windows\\notepad.exe";
+            processInfo.Arguments = $"C:\\temp\\test1.txt";
             processInfo.CreateNoWindow = false;
             processInfo.UseShellExecute = false;
             processInfo.WindowStyle = ProcessWindowStyle.Hidden;
