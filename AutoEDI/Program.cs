@@ -61,6 +61,8 @@ namespace AutoEDI
                 {
                     //for production
                     //ExecuteCommand(customer);
+
+                    //for testing
                     ExecuteCommandTest(customer);
                 }
                 catch (Exception ex)
@@ -112,6 +114,7 @@ namespace AutoEDI
 
         private static void ExecuteCommand(string customerCode)
         {
+            Console.Write($"Start processing for customer:{customerCode} ......" );
             ProcessStartInfo processInfo = new ProcessStartInfo();
             processInfo.FileName = commandPath;
             processInfo.Arguments = $" /BASESEDIR=0 /HOST=MBCSQL /OPER={oper} /pass={pass} /comp={comp} /cpas={cpass} /prog=EDI810 /link={customerCode}:NRINA:NOREPORT:REPRINT:LIST";
@@ -122,6 +125,8 @@ namespace AutoEDI
             {
                 process.WaitForExit();
             }
+            Console.WriteLine("Done!");
+            Console.WriteLine("------------------------------------------------------");
         }
 
         //this method is for test purpose only
